@@ -1,0 +1,67 @@
+I want a website that provides information about a community facility called "Woodend Community Emergency HUB".
+
+GENERAL SITE PROPERTIES AND STYLING
+This is a public page. No login required. It should be a very simple, intuitive site. Users with little or no web-use experience should be able to navigate it easily.
+
+Two key colours in the pallette are:  Blue : #173f5f, Green : #397c69. These should be used for text with White background, or for background with white text for emphasis. The file assets/images/flyer.pdf contains these colours in use and demonstrates the general style I am seeking. Create other secondary colours as required that are complementary to these colours. Can you read the typescript used in the PDF? If not, a standard sans typescript should be used.
+
+A SPA approach would be suitable.
+
+EACH PAGE TO CONTAIN 
+	1.	Header
+	2.	Menu
+	3.	MAIN 
+	4.	Current Hub status display (OPEN or CLOSED) - use text and/or icons. This should always be visible on the page.
+	5.	Footer 
+
+
+THE HEADER should contain two logos:
+	1.	assets/images/hub_logo.png  This can be used as the page header element, centering with view field changes
+	2.	assets/images/wnh_logo.avif This is the parent body logo so smaller, fixed top left presence would look good.
+	
+
+THE MENU is single layered. Each element will update the display in the MAIN area to a particular aspect of the facility. I will provide the final list of menu options later - please use these for the time being:
+	Intro
+	What is it?
+	When is it open?
+	Where is it?
+	Placeholder 1
+	Placeholder 2
+
+	
+MAIN: this area will contain text, images, etc as required by the topic. I will provide the text blocks later - please use place-holder text for the time being
+
+FOOTER: This will contain general contact info, etc. I will provide the text later - please use place-holder text for the time being
+
+INTERACTIVITY: 
+1.	The page needs an "Easter egg" secret key combination that allows an administrator to update a "Hub status" value at the server - values are "NOW OPEN" and "CLOSED" - and this will determine the status displayed on all pages delivered thereafter. 
+
+2.	Any pages currently open on users' browsers should be updated in realtime if the server's Status value changes.
+
+QUESTIONS
+Is it work using a framework for this task? e.g. Laravel
+
+=================================================================================================================================================
+VERSION 2
+
+Changes to the site.
+
+We need a new variable in the HUB status data: "Event". This is a multivalue variable containing a boolean value for each of the emergencies that might trigger the opening of the HUB: BUSHFIRE, STORM, HEATWAVE. In most situations only one will be true at any time, but it's possible for e.g. BUSHFIRE and HEATWAVE to both be true.
+
+We need these options to be managed in the Admin popup.
+
+The status of the HUB (OPEN or CLOSED) and, if the HUB is OPEN, the value of Event will now determine several aspects of the site, as follows:
+	
+	Status=CLOSED
+		The purpose of the site is to give general information about the HUB, its purposed and operation. THe current menu and page designs (with more mokds to come) are suitable for this mode. 
+		
+		In this mode, the Intro page remains the site's landing page, and the "Where is it?" displays as it is now, with the map iframe at 440x320px and #div.callout.callout-amber displayed.
+		
+	Status=OPEN
+		When the HUB is open, it is assumed that visitors to the site are, in most likelihood, seeking help - i.e. "is the hub open and where is it? I need help." Viewers may be under stress. The focus changes to the display of key information with maximum clarity and a minimum of distracting elements. 
+		
+		In this mode, the "Where is it?" page becomes site's the landing page and the menu text should become caps. In that page, the #div.callout.callout-amber is hidden. THe #hub-map-frame iframe is larger (full width) and located under the address. If the address is not the default address, a notice advising users that "NOTE: the HUB has been relocated" should be clearly displayed with the new address. 
+		
+		The status-banner element should display the nature of the emergency, as specified in the Event variable.
+		
+		A new page is required, "GET ADVICE NOW". It is to contain a text block for each of the Event types (containing placeholder text for now), and only the block for the current emergency or emergencies should be displayed. When the HUB is CLOSED, this page will be displayed with the menu text "Where to get Advice", and all event paragraphs should be displayed. 

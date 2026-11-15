@@ -1,0 +1,71 @@
+﻿===============================================================================================
+What's built
+
+hub/
++-- index.html              SPA shell: header, menu, status banner, main, footer, admin panel
++-- assets/
+¦   +-- css/style.css       All styling, colour palette, responsive layout
+¦   +-- js/app.js           Routing, status polling, easter egg, admin logic
+¦   +-- js/content.js       All page text — edit this file to update copy
++-- api/
+¦   +-- status.php          GET returns status; POST sets it (password-protected)
+¦   +-- config.php          Holds the admin password hash
++-- data/status.json        Persisted status — no database needed
+
+Content: I pulled real copy from flyer.pdf into Intro, What-is-it, Where-is-it, and the footer contact details (address, phone, 000 emergency line) — more useful than lorem ipsum, and obviously editable. "When is it open?" and the two Placeholder pages are still marked <em>Placeholder</em> since the flyer doesn't cover them.
+
+Colours: your blue/green plus two new complementary warm accents — amber #e2a23d and terracotta #c1502f — used for the OPEN/CLOSED status banner and emergency callouts, so the status is never just colour-coded, it's also icon + text (?/?).
+
+Typeface: the PDF uses a rounded geometric sans. I matched it with Quicksand (headings) + Nunito (body) from Google Fonts, with system-font fallbacks so it still looks fine without internet.
+
+Status mechanism: data/status.json is the single source of truth. Every open tab polls api/status.php every 5 seconds — that's "near-real-time," not push, but it's the simplest reliable option on plain Apache/PHP (true push via SSE/WebSockets is possible but adds real complexity for one boolean value).
+
+Easter egg: type hubadmin anywhere on the page (not in a text field) to pop the admin panel. Default password is WoodendHub2026 — change it by regenerating the hash:
+C:\xampp\php\php.exe -r "echo password_hash('new-password', PASSWORD_DEFAULT);"
+and pasting the result into api/config.php.
+
+Your framework question
+
+Not worth it here. Laravel earns its keep when you have multiple models, auth/roles, migrations, and many endpoints. This site has one piece of server state (a status flag) and otherwise-static content. A framework would add composer, routing config, blade templates, and deployment overhead for no real benefit — vanilla PHP + a flat JSON file is less code, easier for you to hand-edit, and trivial to host anywhere PHP runs. Reach for a framework only if this grows into something with real data modeling (volunteer sign-ups, resource inventories, multi-admin accounts) — not for what's described here.
+
+One thing worth flagging: the easter-egg password travels in plain JSON over HTTP on localhost, which is fine for dev, but if this ever goes on the public internet, put it behind HTTPS (and ideally move config.php's password out of a world-readable path or add basic rate-limiting beyond the current 300ms throttle).
+
+
+? recap: Built the Woodend Community Emergency HUB site (SPA, status banner, admin easter-egg) and verified it's working live on localhost. Next: have you review it in a browser and share the real menu/content text and any final tweaks. (disable recaps in /config)
+
+===============================================================================================
+
+> you said "One thing worth flagging: the easter-egg password travels in plain JSON over HTTP on localhost, which is fine for dev, but if this ever goes on the public internet, put it behind HTTPS (and ideally move config.php's password out of a world-readable path or add basic rate-limiting beyond the current 300ms throttle)."   What do you mean by the last about rate limiting?
+
+The current protection in api/status.php is just this line on a failed password check:
+
+usleep(300000); // small delay to discourage brute-forcing the password
+
+That makes each wrong guess cost the attacker 0.3 seconds, but it doesn't actually limit anything — it's per-request, stateless, and trivially defeated by sending guesses in parallel (10 concurrent connections = 10x the throughput, no penalty). There's also no cap on total attempts: someone could leave a script running indefinitely, slowly grinding through passwords forever with no consequence.
+
+"Basic rate limiting" means tracking failed attempts persistently (e.g. by IP, or just globally since this is a single-admin site) and actually blocking further tries once a threshold is hit — something like:
+
+- Keep a small counter file (data/login_attempts.json) recording failed attempts + timestamps.
+- After, say, 5 failures within 10 minutes, reject all further attempts (even with the correct password) for a cooldown period (e.g. 15 minutes), returning a 429.
+- Reset the counter on a successful login.
+
+That turns "slightly annoying" into "actually stops a brute-force script," at the cost of a bit more code (reading/writing/locking that counter file alongside the status file) and a small UX risk: if you fat-finger the password 5 times yourself, you lock yourself out too for the cooldown window.
+
+It's not something I'd bother with for a localhost/dev site like this — I only flagged it as a "before this goes public" consideration. Want me to implement it now, or hold off until you're actually ready to deploy it live?
+
+> This site will be public when we've finished it, so let's do that now
+
+...
+
+All working as expected — lockout triggers after 5 failures, blocks even correct passwords during the window, and clears automatically once it expires (confirmed here by simulating an expired timestamp). State is back to a clean CLOSED with an empty login_attempts.json.
+
+Summary of what changed in api/status.php:
+- Failed password attempts are now tracked per IP address in data/login_attempts.json.
+- 5 failures within 10 minutes → that IP is locked out for 15 minutes, even if they later supply the correct password.
+- A successful login clears that IP's history.
+- Old/abandoned entries (not locked, no failures in the last 10 minutes) are pruned automatically so the file doesn't grow unbounded from random bots.
+- Reads/writes to the attempts file are done under an exclusive file lock (flock) so simultaneous requests can't race each other.
+
+The front-end admin panel needed no changes — it already just displays whatever error message the server sends back, so the 429 lockout message shows up automatically.
+
+===============================================================================================

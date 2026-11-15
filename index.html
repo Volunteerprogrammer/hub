@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodend Community Emergency HUB</title>
+<meta name="description" content="Information about the Woodend Community Emergency Hub — a local, community-led space to stay connected and get help during an emergency.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-status="unknown">
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ============================================================
+     TEMPORARY DEMO CONTROL — for showing stakeholders both Hub
+     states without the admin password. DELETE this button, the
+     matching .demo-toggle-btn rule in style.css, and the "TEMPORARY
+     DEMO CONTROL" block in app.js before this site goes live.
+     ============================================================ 
+<button type="button" class="demo-toggle-btn" id="demo-toggle-btn">DEMO: Toggle Status</button>
+-->
+<header class="site-header">
+  <a href="https://www.woodendnh.org.au" target="_blank" rel="noopener">
+    <img class="parent-logo" src="assets/images/wnh_logo.avif" alt="Woodend Neighbourhood House">
+  </a>
+  <div class="hub-logo-wrap">
+    <img class="hub-logo" src="assets/images/hub_logo.png" alt="Woodend Community Emergency HUB">
+  </div>
+</header>
+
+<div class="sticky-header">
+  <nav class="site-menu" aria-label="Main menu">
+    <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-list">
+      <span class="menu-toggle-icon" aria-hidden="true"></span>
+      Menu
+    </button>
+    <ul id="menu-list" class="menu-list">
+      <li data-page="where"><button type="button" class="menu-link menu-link-highlight" data-page="where">Where is it?</button></li>
+      <li data-page="advice"><button type="button" class="menu-link menu-link-highlight" id="menu-advice-link" data-page="advice">Where to get Advice</button></li>
+      <li data-page="intro"><button type="button" class="menu-link" data-page="intro">Intro</button></li>
+      <li data-page="when"><button type="button" class="menu-link" data-page="when">When is it open?</button></li>
+      <li data-page="about"><button type="button" class="menu-link" data-page="about">About the HUB</button></li>
+      <li data-page="volunteers"><button type="button" class="menu-link" data-page="volunteers">Can I Volunteer?</button></li>
+    </ul>
+  </nav>
+
+  <div class="status-banner" id="status-banner" role="status" aria-live="polite">
+    <span class="status-icon" id="status-icon" aria-hidden="true"></span>
+    <span class="status-text" id="status-text">Checking Hub status&hellip;</span>
+  </div>
+
+  <!-- Only shown while the Hub is open — see .top-emergency-banner in
+       style.css. The footer still carries its own copy at all times. -->
+  <div class="top-emergency-banner">
+    If you are in immediate danger, always call <strong>000</strong>
+  </div>
+</div>
+
+<main id="main" class="site-main" tabindex="-1">
+  <!-- Page content is injected here by assets/js/app.js -->
+</main>
+
+<footer class="site-footer">
+  <div class="footer-emergency">
+    If you are in immediate danger, always call <strong>000</strong>
+  </div>
+
+  <div class="footer-content">
+    <div class="footer-block">
+      <h2>Contact</h2>
+      <p>
+        Woodend Neighbourhood House<br>
+        47 Forest Street, Woodend<br>
+        Phone: <a href="tel:0354271845">03 5427 1845</a><br>
+        <a href="https://woodendnh.org.au" target="_blank" rel="noopener">woodendnh.org.au</a>
+      </p>
+    </div>
+    <div class="footer-block">
+<!--       <h2>About this site</h2>
+      <p><em>Placeholder — further footer content (opening hours, social media links, partner
+         and sponsor logos) will go here.</em></p> -->
+    </div>
+  </div>
+
+  <p class="footer-fine-print">&copy; <span id="footer-year"></span> Woodend Community Emergency Hub, c/- Woodend Neighbourhood House.</p>
+</footer>
+
+<!-- Shown when the Hub's open/closed status changes while this page is
+     already loaded. Stays open until dismissed — no auto-refresh timer. -->
+<div class="status-transition-overlay hidden" id="status-transition-overlay" role="alertdialog" aria-modal="true" aria-labelledby="status-transition-message">
+  <div class="status-transition-panel">
+    <p class="status-transition-icon" id="status-transition-icon" aria-hidden="true"></p>
+    <p class="status-transition-message" id="status-transition-message"></p>
+    <div class="admin-actions">
+      <button type="button" class="btn btn-secondary" id="status-transition-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin panel, hidden unless unlocked via the key sequence -->
+<div class="admin-overlay hidden" id="admin-overlay">
+  <div class="admin-panel" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+    <button type="button" class="admin-close" id="admin-close" aria-label="Close admin panel">&times;</button>
+    <h2 id="admin-title">Hub Admin</h2>
+    <p class="admin-hint">Enter the admin password and unlock to make a change below.</p>
+
+    <label class="admin-label" for="admin-password">Password</label>
+    <div class="admin-password-row">
+      <input class="admin-password" type="password" id="admin-password" autocomplete="off">
+      <button type="button" class="btn btn-unlock" id="admin-unlock">Unlock</button>
+    </div>
+    <p class="admin-message" id="admin-unlock-message" role="alert"></p>
+
+    <fieldset class="admin-controls" id="admin-controls" disabled>
+      <h3 class="admin-subhead">Status</h3>
+      <p class="admin-hint admin-hint-tight">Select the active emergency type(s) — more than one can apply at once.</p>
+      <div class="admin-checkboxes">
+        <label><input type="checkbox" id="admin-event-bushfire"> Bushfire</label>
+        <label><input type="checkbox" id="admin-event-storm"> Storm</label>
+        <label><input type="checkbox" id="admin-event-heatwave"> Heatwave</label>
+      </div>
+      <div class="admin-actions">
+        <button type="button" class="btn btn-open" id="admin-set-open">Set &ldquo;NOW OPEN&rdquo;</button>
+        <button type="button" class="btn btn-closed" id="admin-set-closed">Set &ldquo;CLOSED&rdquo;</button>
+      </div>
+
+      <h3 class="admin-subhead">Location</h3>
+      <label class="admin-label" for="admin-venue">Venue name</label>
+      <input class="admin-text" type="text" id="admin-venue" autocomplete="off">
+
+      <label class="admin-label" for="admin-address">Street address</label>
+      <input class="admin-text" type="text" id="admin-address" autocomplete="off">
+
+      <div class="admin-actions">
+        <button type="button" class="btn btn-save" id="admin-save-location">Save location</button>
+      </div>
+      <button type="button" class="btn-link" id="admin-reset-location">Reset to default (Neighbourhood House)</button>
+    </fieldset>
+
+    <p class="admin-message" id="admin-message" role="alert"></p>
+  </div>
+</div>
+
+<script src="assets/js/content.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

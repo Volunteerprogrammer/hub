@@ -1,0 +1,633 @@
+/* ==========================================================================
+   Woodend Community Emergency HUB — styles
+   Palette: Blue #173f5f, Green #397c69, plus complementary warm accents.
+   ========================================================================== */
+
+/* ====== TEMPORARY DEMO CONTROL — delete this whole block before the
+   site goes live (see index.html and app.js for the matching pieces). */
+.demo-toggle-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 300;
+  background: #ffe066;
+  color: #1c2b2a;
+  border: 2px dashed #1c2b2a;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-family: 'Quicksand', 'Segoe UI', Verdana, sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.demo-toggle-btn:hover { background: #ffd43b; }
+.demo-toggle-btn:disabled { opacity: 0.6; cursor: default; }
+/* ====== end TEMPORARY DEMO CONTROL ====== */
+
+:root {
+  --blue: #173f5f;
+  --blue-dark: #0e2a40;
+  --blue-tint: #e9eff4;
+
+  --green: #397c69;
+  --green-dark: #2a5c4e;
+  --green-tint: #eaf3ef;
+
+  /* Warm secondary accents, complementary to the cool blue/green pair */
+  --amber: #e2a23d;
+  --amber-dark: #b97e23;
+  --terracotta: #c1502f;
+  --terracotta-dark: #9c3d22;
+
+  --ink: #1c2b2a;
+  --paper: #ffffff;
+  --cloud: #f6f8f7;
+  --border: #dbe4e1;
+
+  --font-head: 'Quicksand', 'Segoe UI', Verdana, sans-serif;
+  --font-body: 'Nunito', 'Segoe UI', Verdana, sans-serif;
+
+  --radius: 14px;
+  --shadow: 0 2px 10px rgba(23, 63, 95, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cloud);
+  line-height: 1.55;
+  font-size: 1.05rem;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  color: var(--blue);
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+
+a { color: var(--green-dark); }
+a:hover, a:focus { color: var(--blue); }
+
+img { max-width: 100%; display: block; }
+
+button { font-family: inherit; }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--blue);
+  color: #fff;
+  padding: 0.75em 1.25em;
+  border-radius: 0 0 8px 0;
+  z-index: 1000;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------------------------- Header -------------------------------- */
+
+.site-header {
+  position: relative;
+  background: var(--paper);
+  padding: 1.25rem 1rem 1.75rem;
+  text-align: center;
+  border-bottom: 4px solid var(--green);
+}
+
+.parent-logo {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  width: clamp(56px, 12vw, 96px);
+  height: auto;
+}
+
+.hub-logo-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 clamp(60px, 14vw, 110px); /* keep clear of the corner logo */
+}
+
+.hub-logo {
+  width: min(100%, 520px);
+  margin: 0 auto;
+  height: auto;
+}
+
+@media (max-width: 480px) {
+  .hub-logo-wrap { padding: 2.5rem 0.5rem 0; }
+  .parent-logo { width: 52px; }
+}
+
+/* ----------------------------- Menu ---------------------------------- */
+
+.site-menu {
+  background: var(--blue);
+  position: relative;
+}
+
+.menu-toggle {
+  display: none;
+  width: 100%;
+  align-items: center;
+  gap: 0.6em;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 0.9rem 1.2rem;
+  cursor: pointer;
+}
+
+.menu-toggle-icon,
+.menu-toggle-icon::before,
+.menu-toggle-icon::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+.menu-toggle-icon { position: relative; }
+.menu-toggle-icon::before { content: ''; position: absolute; top: -7px; }
+.menu-toggle-icon::after { content: ''; position: absolute; top: 7px; }
+
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Closed (default): standard order — "Where is it?" and the advice item
+   sit at positions 3 & 4, same as any other menu item. Reordered purely
+   via flex `order`, so no DOM changes are needed when status flips. */
+.menu-list li[data-page="intro"] { order: 1; }
+.menu-list li[data-page="when"] { order: 2; }
+.menu-list li[data-page="where"] { order: 3; }
+.menu-list li[data-page="advice"] { order: 4; }
+.menu-list li[data-page="about"] { order: 5; }
+.menu-list li[data-page="volunteers"] { order: 6; }
+
+/* Open: those same two items lead the menu instead. */
+body[data-status="open"] .menu-list li[data-page="where"] { order: 1; }
+body[data-status="open"] .menu-list li[data-page="advice"] { order: 2; }
+body[data-status="open"] .menu-list li[data-page="intro"] { order: 3; }
+body[data-status="open"] .menu-list li[data-page="when"] { order: 4; }
+
+.menu-link {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #fff;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.9rem 1.3rem;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.menu-link:hover,
+.menu-link:focus {
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+
+.menu-link.active {
+  border-bottom-color: var(--amber);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 760px) {
+  .menu-toggle { display: flex; }
+  .menu-list {
+    display: none;
+    flex-direction: column;
+  }
+  .menu-list.open { display: flex; }
+  .menu-link { text-align: left; }
+}
+
+/* ------------------------- Status banner ------------------------------ */
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.top-emergency-banner {
+  display: none;
+  background: var(--terracotta-dark);
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.5rem;
+  padding: 0.6rem 1rem;
+}
+
+body[data-status="open"] .top-emergency-banner {
+  display: block;
+}
+
+.status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--border);
+  box-shadow: var(--shadow);
+}
+
+.status-icon { font-size: 1.2em; line-height: 1; }
+
+body[data-status="open"] .status-banner {
+  background: var(--green);
+}
+body[data-status="closed"] .status-banner {
+  background: var(--terracotta);
+}
+body[data-status="unknown"] .status-banner {
+  background: #8a99a6;
+}
+
+/* ------------------------------ Main ----------------------------------- */
+
+.site-main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2.25rem 1.25rem 3rem;
+  outline: none;
+  /* Without this, the browser's scroll-anchoring can "helpfully" try to
+     preserve scroll position when this element's content is replaced —
+     which, when the new page is much shorter than wherever the old one
+     was scrolled to, can clamp the view near the bottom instead of
+     respecting the scrollTo(0) in app.js's renderPage(). */
+  overflow-anchor: none;
+}
+
+.site-main .lead {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.callout {
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin: 1.25rem 0;
+}
+
+.callout-blue {
+  background: var(--blue);
+  color: #fff;
+}
+.callout-blue p { margin: 0; font-weight: 600; }
+
+.callout-green {
+  background: var(--green-tint);
+  border: 1px solid var(--green);
+}
+
+.callout-amber {
+  background: #fbf1e1;
+  border: 1px solid var(--amber);
+}
+.callout-amber p { margin: 0; font-weight: 600; color: var(--amber-dark); }
+
+.callout-relocated {
+  background: #fbeae4;
+  border: 2px solid var(--terracotta);
+}
+.callout-relocated p { margin: 0; font-weight: 600; color: var(--terracotta-dark); }
+
+.where-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.where-address {
+  flex: 1 1 240px;
+  min-width: 220px;
+}
+.where-address :first-child { margin-top: 0; }
+
+.map-embed {
+  flex: 0 1 440px;
+  width: 100%;
+  max-width: 440px;
+  height: 320px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.map-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* -------------------- Hub-open mode: clarity over detail -------------------- */
+/* While the Hub is open, visitors are assumed to be stressed and looking for
+   one thing — is it open, and where — so those two menu items lead in caps
+   and amber (reusing the existing active-item underline colour rather than
+   introducing a new one), and the "Where is it?" page drops secondary
+   content (the "might relocate" caveat) in favour of a large, hard-to-miss
+   map. Closed, they're just standard menu items — see the `order` rules
+   above for a fuller picture. */
+
+body[data-status="open"] .menu-link-highlight {
+  text-transform: uppercase;
+  color: var(--amber);
+  font-weight: 700;
+}
+
+body[data-status="open"] .callout-amber {
+  display: none;
+}
+
+body[data-status="open"] .where-top {
+  flex-direction: column;
+}
+
+body[data-status="open"] .where-address {
+  /* flex: 1 1 240px on .where-address is a *width* basis for the normal
+     side-by-side layout; once the column above kicks in that same 240px
+     becomes a height basis instead, leaving a big gap above the map. */
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+body[data-status="open"] .map-embed {
+  max-width: 100%;
+  width: 100%;
+  height: clamp(300px, 55vh, 520px);
+}
+
+/* ------------------------------ Advice page ---------------------------- */
+
+.advice-block {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.advice-block:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* ------------------------------ Footer ---------------------------------- */
+
+.site-footer {
+  background: var(--blue-dark);
+  color: #fff;
+}
+
+.footer-emergency {
+  background: var(--terracotta-dark);
+  color: #fff;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-head);
+}
+
+.footer-content {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.footer-block h2 {
+  color: var(--amber);
+  font-size: 1.1rem;
+}
+
+.footer-block p { margin: 0; }
+.footer-block a { color: #fff; text-decoration: underline; }
+
+.footer-fine-print {
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  padding: 1rem 1rem 1.5rem;
+  margin: 0;
+}
+
+/* ------------------------------ Admin panel ------------------------------ */
+
+.admin-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 42, 64, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 200;
+}
+.admin-overlay.hidden { display: none; }
+
+.admin-panel {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ------------------------ Status transition popup ------------------------ */
+
+.status-transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 42, 64, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 250; /* above the admin overlay, in case both are ever open */
+}
+.status-transition-overlay.hidden { display: none; }
+
+.status-transition-panel {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 2rem;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.status-transition-icon { font-size: 2.5rem; margin: 0 0 0.5rem; }
+
+.status-transition-message {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--blue);
+  margin: 0 0 1.25rem;
+}
+
+.admin-subhead {
+  font-size: 1rem;
+  color: var(--green-dark);
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0 1rem;
+  padding-top: 1rem;
+}
+.admin-subhead:first-of-type { border-top: none; margin-top: 0.5rem; padding-top: 0; }
+
+.admin-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--blue);
+  cursor: pointer;
+}
+
+.admin-hint { color: #555; margin-top: 0; }
+.admin-hint-tight { margin: 0 0 0.6rem; font-size: 0.9rem; }
+
+.admin-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.admin-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.admin-checkboxes input { width: 1.1em; height: 1.1em; cursor: pointer; }
+
+.admin-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.admin-password,
+.admin-text {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.admin-text { margin-bottom: 1.25rem; }
+
+.admin-password-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+.admin-password-row .admin-password { flex: 1 1 auto; margin-bottom: 0; }
+
+.btn-unlock {
+  flex: 0 0 auto;
+  background: var(--green);
+}
+.btn-unlock:hover, .btn-unlock:focus { background: var(--green-dark); }
+.btn-unlock:disabled { opacity: 0.6; cursor: default; }
+
+.admin-controls {
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  transition: opacity 0.15s ease;
+}
+.admin-controls:disabled { opacity: 0.45; }
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  flex: 1 1 auto;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-open { background: var(--green); }
+.btn-open:hover, .btn-open:focus { background: var(--green-dark); }
+
+.btn-closed { background: var(--terracotta); }
+.btn-closed:hover, .btn-closed:focus { background: var(--terracotta-dark); }
+
+.btn-save { background: var(--blue); }
+.btn-save:hover, .btn-save:focus { background: var(--blue-dark); }
+
+.btn-secondary { background: #8a99a6; }
+.btn-secondary:hover, .btn-secondary:focus { background: #6f7d89; }
+
+.btn-link {
+  display: block;
+  margin-top: 0.6rem;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  color: var(--green-dark);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.btn-link:hover, .btn-link:focus { color: var(--blue); }
+
+.admin-message {
+  min-height: 1.4em;
+  margin: 1rem 0 0;
+  font-weight: 700;
+}
+.admin-message.error { color: var(--terracotta-dark); }
+.admin-message.success { color: var(--green-dark); }

@@ -1,0 +1,9 @@
+{
+    "status": "NOW OPEN",
+    "event": {
+        "bushfire": true,
+        "storm": false,
+        "heatwave": false
+    },
+    "updatedAt": "2026-11-14T07:24:19+00:00"
+}
