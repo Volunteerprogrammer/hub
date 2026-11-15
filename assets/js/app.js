@@ -630,6 +630,30 @@
     });
   }
 
+  // Touch-only devices have no hardware keyboard and nothing on this
+  // page to focus to summon the on-screen one, so the keystroke trigger
+  // above is unreachable there. This tap gesture (5 taps on the main
+  // Hub logo within 3 seconds) needs no typing at all, so it works the
+  // same on touch or mouse.
+  var TAP_TRIGGER_COUNT = 5;
+  var TAP_TRIGGER_WINDOW_MS = 3000;
+
+  function initTapEasterEgg() {
+    var hubLogoEl = document.querySelector('.hub-logo');
+    if (!hubLogoEl) return;
+
+    var tapTimes = [];
+    hubLogoEl.addEventListener('click', function () {
+      var now = Date.now();
+      tapTimes.push(now);
+      tapTimes = tapTimes.filter(function (t) { return now - t <= TAP_TRIGGER_WINDOW_MS; });
+      if (tapTimes.length >= TAP_TRIGGER_COUNT) {
+        tapTimes = [];
+        openAdminPanel();
+      }
+    });
+  }
+
   /* ------------------------------ Footer ----------------------------- */
 
   function initFooterYear() {
@@ -715,6 +739,7 @@
     initLocationPolling();
     initAdminPanel();
     initEasterEgg();
+    initTapEasterEgg();
     initFooterYear();
     initDemoToggle(); // TEMPORARY — see block above; remove this line too when deleting it
 
