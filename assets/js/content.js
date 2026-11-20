@@ -31,17 +31,21 @@ const PAGES = {
   when: {
     title: 'When is it open?',
     html: `
-      <p>The Hub is activated</p>
+        <p>A Community Emergency Hub is not a refuge during an active Bushfire or Storm.</p>
+
+      <p>If there is an active Bushfire or Storm you should follow safety directions on evacuation or sheltering in place issued by the Emergency Services (CFA, SES and VIC Police). These safety directions are broadcast by the ABC and are also available on the individual Services' websites. See <a href="https://emergencyhub.woodendnh.org.au/#advice">Where to get Advice</a> for more information.</p>
+
+      <p>The Hub is activated in response to the following events in the Woodend township or surrounding areas:</p>
       <ul>
-        <li>during or after a <strong>bushfire</strong>, once emergency services, local authorities, and 
-              Council officially declare the township safe</li>
-        <li>during a <strong>severe storm</strong> or <strong>severe thunderstorm</strong> (as declared by the Bureau of Meteorology),  </li>
-        <li>during a severe or extreme <strong>heatwave</strong> (as declared by the Bureau of Meteorology).</li>
+        <li>following a <strong>bushfire</strong>,</li>
+        <li>a <strong>severe storm</strong> or <strong>severe thunderstorm</strong>, as declared by the Bureau of Meteorology. The Hub will NOT open while Official Advice is to take shelter and not travel.</li>
+        <li>severe or extreme <strong>heatwave</strong>, as declared by the Bureau of Meteorology.</li>
       </ul>
 
-      <p>The indicator at the top of this page always shows whether the Hub is currently
-         <strong>open</strong> or <strong>closed</strong>, and updates automatically.</p>
-    `,
+      <p>Once the Hub is operational, it will be open daily from 9:00 until late afternoon, for as long as there is a perceived demand from the community.</p>
+      
+      <p>The indicator at the top of this page always shows whether the Hub is currently <strong>open</strong> or <strong>closed</strong>, and updates automatically.</p>
+   `,
   },
 
   where: {
@@ -103,6 +107,7 @@ const PAGES = {
         <p>For Fire bans, ratings and restrictions, visit the <a href="https://www.cfa.vic.gov.au/warnings-and-restrictions/fire-bans-ratings-and-restrictions/total-fire-bans-fire-danger-ratings/central-fire-district" target="_blank">Country Fire Authority (CFA) Central fire district</a> page.</p>
         <p>For preparation and planning, visit the <a href="https://www.cfa.vic.gov.au/fire-safety" target="_blank">Country Fire Authority (CFA) Fire Safety</a> page.</p>
       </div>
+
       <div class="advice-block" data-event="storm">
         <h2>Severe Storm</h2>
         <p><a href="https://emergency.vic.gov.au" target="_blank">VicEmergency</a> is Victoria's centralized platform for live emergency warnings, watch zones, incident tracking, and active road closures. Type or paste "HIGH STREET WOODEND 3442" into the text entry above the map then hit "Enter" to zoom in. You can also download the VicEmergency app or call the free VicEmergency Hotline at 1800 226 226.</p>
@@ -111,7 +116,7 @@ const PAGES = {
        <ul><li>ABC Central Victoria, broadcast on 91.1 FM, or</li><li>ABC Radio Melbourne on 774 AM.</li></ul>
         <p><a href="https://www.ses.vic.gov.au/plan-and-stay-safe/emergencies/storm" target="_blank">Victoria State Emergency Service</a>is the lead control agency for storms, floods, and landslides in Victoria, providing practical safety advice and storm preparation guides. The link opens on the "Storms - Plan and stay safe" page. Click the logo at the top left to go to the home page.<p>
         <p>Learn more about severe thunderstorms here: <a href="https://www.bom.gov.au/news-and-media/severe-thunderstorms-what-you-need-to-know" target="_blank">BOM: Severe thunderstorms: what you need to know</a><p>
-        <p>Learn more about what to do during a storm or severe weather, go to <a href="https://https://www.abc.net.au/emergency/what-to-do-during-a-storm-or-severe-weather/102387818" target="_blank">ABC Emergency: What to do during a storm or severe weather</a><p>
+        <p>Learn more about what to do during a storm or severe weather, go to <a href="https://www.abc.net.au/emergency/what-to-do-during-a-storm-or-severe-weather/102387818" target="_blank">ABC Emergency: What to do during a storm or severe weather</a><p>
       </div>
       <div class="advice-block" data-event="heatwave">
         <h2>Heatwave</h2>
@@ -127,8 +132,18 @@ const PAGES = {
   about: {
     title: 'About the HUB',
     html: `
-      <p>The Volunteer-run <strong>Woodend Community Emergency HUB</strong> is a project of the Woodend Neighbourhood House.</p>
-      <p>Developed over 2026 in collaboration with the SES, CFA and Macedon Ranges Shire Council, it follows the lines of similar initiatives in other towns in the Shire. </p>   
+      <p>The Volunteer-run <strong>Woodend Community Emergency HUB</strong> is a project of the Woodend Neighbourhood House. Developed over 2026 in collaboration with the SES, CFA and Macedon Ranges Shire Council, it follows the lines of similar initiatives in other towns in the Shire. </p>
+      <p>Depending on the Emergency, the HUB will offer:</p>
+      <ul>
+        <li>A quiet and safe place to rest, have some refreshments, connect with community members and an opportunity to share</li>
+        <li>Advice/Coordination of support services</li>
+        <li>Pastoral care in response to emergency generated trauma</li>
+        <li>Psychological first aid via referrrals to the Red Cross and VCCEM (Victorian Council of Churches Emergencies Ministry)</li>
+        <li>Packaged food, prepared meals</li>
+        <li>Coordination/distribution of donations—clothing, etc</li>
+        <li>Help with replacement of lost household goods</li>
+      </ul>
+     
     `,
   },
 

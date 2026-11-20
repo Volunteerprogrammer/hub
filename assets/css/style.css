@@ -173,17 +173,19 @@ button { font-family: inherit; }
    sit at positions 3 & 4, same as any other menu item. Reordered purely
    via flex `order`, so no DOM changes are needed when status flips. */
 .menu-list li[data-page="intro"] { order: 1; }
-.menu-list li[data-page="when"] { order: 2; }
-.menu-list li[data-page="where"] { order: 3; }
-.menu-list li[data-page="advice"] { order: 4; }
-.menu-list li[data-page="about"] { order: 5; }
+.menu-list li[data-page="about"] { order: 2; }
+.menu-list li[data-page="when"] { order: 3; }
+.menu-list li[data-page="where"] { order: 4; }
+.menu-list li[data-page="advice"] { order: 5; }
 .menu-list li[data-page="volunteers"] { order: 6; }
 
-/* Open: those same two items lead the menu instead. */
+/* Open: those same two items lead the menu instead — "About" still
+   immediately follows "Intro" either way. */
 body[data-status="open"] .menu-list li[data-page="where"] { order: 1; }
 body[data-status="open"] .menu-list li[data-page="advice"] { order: 2; }
 body[data-status="open"] .menu-list li[data-page="intro"] { order: 3; }
-body[data-status="open"] .menu-list li[data-page="when"] { order: 4; }
+body[data-status="open"] .menu-list li[data-page="about"] { order: 4; }
+body[data-status="open"] .menu-list li[data-page="when"] { order: 5; }
 
 .menu-link {
   display: block;
