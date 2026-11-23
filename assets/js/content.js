@@ -31,9 +31,9 @@ const PAGES = {
   when: {
     title: 'When is it open?',
     html: `
-        <p>A Community Emergency Hub is not a refuge during an active Bushfire or Storm.</p>
+      <p>A Community Emergency Hub is not a refuge during an active Bushfire or Storm.</p>
 
-      <p>If there is an active Bushfire or Storm you should follow safety directions on evacuation or sheltering in place issued by the Emergency Services (CFA, SES and VIC Police). These safety directions are broadcast by the ABC and are also available on the individual Services' websites. See <a href="https://emergencyhub.woodendnh.org.au/#advice">Where to get Advice</a> for more information.</p>
+      <p>If there is an active Bushfire or Storm you should follow safety directions on evacuation or sheltering in place issued by the Emergency Services (CFA, SES and VIC Police). These safety directions are available at the <a href="https://www.emergency.vic.gov.au/" target="_blank">VicEmergency website</a>, app and hotline (1800 226 226), and are broadcast by the ABC. See <a href="https://emergencyhub.woodendnh.org.au/#advice">Where to get Advice</a> for more information.</p>
 
       <p>The Hub is activated in response to the following events in the Woodend township or surrounding areas:</p>
       <ul>
@@ -133,7 +133,8 @@ const PAGES = {
     title: 'About the HUB',
     html: `
       <p>The Volunteer-run <strong>Woodend Community Emergency HUB</strong> is a project of the Woodend Neighbourhood House. Developed over 2026 in collaboration with the SES, CFA and Macedon Ranges Shire Council, it follows the lines of similar initiatives in other towns in the Shire. </p>
-      <p>Depending on the Emergency, the HUB will offer:</p>
+
+      <p>A Community Emergency Hub supplements any local council or state government relief and support. A Community Emergency Hub aims to provide more localised community-based support and connection. Some of the services a Hub will aim to provide include:</p>
       <ul>
         <li>A quiet and safe place to rest, have some refreshments, connect with community members and an opportunity to share</li>
         <li>Advice/Coordination of support services</li>
